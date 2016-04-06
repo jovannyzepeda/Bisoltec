@@ -1,0 +1,16 @@
+<div class="col-md-10 col-md-pushed-1 col-md-offset-1">
+  <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+  <h2 class="proyect_name alert alert-info">
+    <strong><%= @zone.name %></strong>
+  </h2>
+  <%= link_to ' Crear proyecto', new_zone_proyect_path(@zone) ,class: "btn btn-primary fa fa-plus edit "%>
+
+  <%= link_to ' Regresar', zones_path ,class: "btn btn-info fa fa-arrow-left float_right "%>
+
+    <%if current_user.is_admin?%>
+      <%= render 'admin' %>
+    <%else%>
+      <%= render 'normal_user' %>
+    <%end%>
+</div>
