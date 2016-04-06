@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-</head>
+</head> 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 <%= render "parcial/nav"%>
 	<section class="content-section">
@@ -17,4 +17,14 @@
 	</section>
 
 </body>
+<footer>
+  <script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
+</script>
+</footer>
 </html>

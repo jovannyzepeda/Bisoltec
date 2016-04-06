@@ -6,7 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` on Rails 4+ applications as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '5c356844cd16ccbf45eab5b7733e114de369e6fc2509f4e9aa10fc339917856ab9ce13b4aed46644adbc0ab8225bab8df39bfa0f87bbcdd3b48c899ca99f43ec'
+  config.secret_key = '5c356844cd16ccbf45eab5b7733e114de369e6fc2509f4e9aa10fc339917856ab9ce13b4aed46644adbc0ab8225bab8df39bfa0f87bbcdd3b48c899ca99f43ec'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -152,10 +152,10 @@ Devise.setup do |config|
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this
   # time the user will be asked for credentials again. Default is 30 minutes.
-  # config.timeout_in = 30.minutes
+  config.timeout_in = 15.minutes
 
   # If true, expires auth token on session timeout.
-  # config.expire_auth_token_on_timeout = false
+  config.expire_auth_token_on_timeout = true
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.
