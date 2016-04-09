@@ -4,7 +4,7 @@ default: &default
   pool: 5
   timeout: 5000
   username: root
-  password: cruel1293
+  password: ddDD//99
   host: localhost
   port: 3306
 
