@@ -1,0 +1,43 @@
+<div class="col-md-8 col-md-pushed-2 col-md-offset-2">
+  <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+  <h2 class="proyect_name alert alert-info">
+    <strong>Viáticos solicitados</strong>
+  </h2>
+<div class="table-responsive">
+  <table class="table table-bordered spacedor">
+    <thead>
+      <tr>
+        <th>Estado</th>
+        <th>Fecha</th>
+        <th>Creador</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @valor = 0 %>
+      <% @viaticos.each do |viatico| %>
+        <%= render "parcial/color"%>
+          <%if viatico.status == 1%>
+            <td>Reportado</td>
+          <%else%>
+            <td>Activo</td>
+          <%end%>
+          <td><%= viatico.fecha %></td>
+          <td><%= viatico.user.email %></td>
+          <td><%= viatico.cantidad %></td>
+          <%if current_user.is_admin? || current_user.email == viatico.user.email%>
+          <td><%= link_to 'Editar', edit_zone_proyect_viatico_path(@zone,@proyect,viatico) %></td>
+          <%end%>
+          <%if current_user.is_admin?%>
+          <td><%= link_to 'Eliminar', [@zone,@proyect,viatico], method: :delete, data: { confirm: 'Estas seguro?' } %></td>
+          <%end%>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @viaticos %> 
+</div>
+<%= link_to 'Back', [@zone,@proyect], class: "btn btn-info fa fa-arrow-left float_right " %>
+</div>
