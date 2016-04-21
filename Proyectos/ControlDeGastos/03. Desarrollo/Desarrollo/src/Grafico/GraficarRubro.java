@@ -11,6 +11,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DatasetGroup;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.Rotation;
 
@@ -27,6 +28,7 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class GraficarRubro extends JFrame {
 
@@ -35,6 +37,8 @@ public class GraficarRubro extends JFrame {
 	PostgreSQL.GraficaRubros graficarRubros=new GraficaRubros();
 	
 	String fecha=null;
+	
+	 DefaultPieDataset data = new DefaultPieDataset();
 	
 	private JPanel contentPane;
 	private JPanel panel;
@@ -50,43 +54,13 @@ public class GraficarRubro extends JFrame {
 	private JLabel lblAo;
 	private JButton btnGraficar;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try
-				
-				{
-				    JFrame.setDefaultLookAndFeelDecorated(true);
-				    JDialog.setDefaultLookAndFeelDecorated(true);
-				    UIManager.setLookAndFeel(acryl);
-
-				}
-
-				catch (Exception e)
-
-				{
-				    e.printStackTrace();
-				}
-				
-				try {
-					GraficarRubro frame = new GraficarRubro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public GraficarRubro() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 724, 561);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,7 +74,7 @@ public class GraficarRubro extends JFrame {
 		
 		 getContentPane().add(panel);
 	        // Fuente de Datos
-	        DefaultPieDataset data = new DefaultPieDataset();
+	       
 
 	       
 	      
@@ -117,7 +91,7 @@ public class GraficarRubro extends JFrame {
 	        pieplot3d.setDepthFactor(0.09);//angulo para mostrar
 	        pieplot3d.setStartAngle(209D);//angulo donde comienza a graficar
 	        pieplot3d.setDirection(Rotation.CLOCKWISE);//grafica hacia las maneillas del reloj
-	        pieplot3d.setForegroundAlpha(0.4F);//transparencia en el grafico
+	        pieplot3d.setForegroundAlpha(0.6F);//transparencia en el grafico
 	        panel.setLayout(null);
 
 
@@ -232,7 +206,33 @@ public class GraficarRubro extends JFrame {
 	        		 graficarRubros.setFechaFinal(fechaFinal);
 	        		 graficarRubros.setFechaInicial(fechaInicial);
 	        		 
-	        		 graficarRubros.AgregarSugerenciaRubro(conexion.conectar());
+	        		 
+	        		 
+	        		 graficarRubros.RecaudarDatos(conexion.conectar());
+	        		 
+	        		
+
+	      	       String rubro = null;
+	      	       float cantidad = 0;
+	       	      int iterador=0;
+	       	      
+	       	     
+	       	      while(iterador<graficarRubros.listaRubros.size()){
+	       	    	
+	       	    	rubro=graficarRubros.listaRubros.get(iterador).toString();
+	       	    	cantidad=Float.parseFloat(graficarRubros.listaCantidad.get(iterador).toString());
+	       	    	data.setValue(rubro+" $"+cantidad, cantidad);
+	       	    	iterador++;
+	       	    	
+	       	      }
+	       	      
+	       	  
+	       	     
+	       	      
+	       
+	       	
+	     	        // Creando el Grafico
+	     	      
 	        		
 	        	}
 	        });

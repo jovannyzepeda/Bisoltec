@@ -47,6 +47,8 @@ public class InterfazPrincipal extends JFrame {
 	PostgreSQL.Subrubro subrubro=new Subrubro();
 	PostgreSQL.Movimiento movimiento=new Movimiento();
 	
+	Grafico.GraficarRubro graficaRubro;
+	
 	static String acryl="com.jtattoo.plaf.acryl.AcrylLookAndFeel";
 	
 	
@@ -1180,6 +1182,14 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_4.setLayout(null);
 		
 		JButton btnGraficarPorRubro = new JButton("Rubro");
+		btnGraficarPorRubro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				graficaRubro=new GraficarRubro();
+				graficaRubro.setVisible(true);
+				
+			}
+		});
 		btnGraficarPorRubro.setBounds(136, 30, 89, 23);
 		layeredPane_4.add(btnGraficarPorRubro);
 		

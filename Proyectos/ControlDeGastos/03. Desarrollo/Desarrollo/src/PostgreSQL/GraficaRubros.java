@@ -45,28 +45,30 @@ public void setFechaFinal(String fechaFinal) {
 	
 
 	
-	public void AgregarSugerenciaRubro(Connection conexion){
+	public void RecaudarDatos(Connection conexion){
 		try {
 			try(Statement estatuto= conexion.createStatement()){
 				String descripcion;
 				float cantidad;
 				int i=0;
+				
 				//con executeQuery REALIZA LAS CONSULTAS ESPECIFICAS
 				
 				
-				estatuto.executeQuery("select r.descripcion, m.cantidad from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"'");
+				estatuto.executeQuery("select  r.descripcion , sum(m.cantidad) as cantidadSumada from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"' GROUP BY  r.descripcion");
 				
 				rst=estatuto.getResultSet();
+				
+				
+				
 				while(rst.next()){
 					i++;
 					descripcion=rst.getString("descripcion");
 					listaRubros.add(descripcion);
-					System.out.println(descripcion+" descripcion");
 					
-					cantidad=rst.getFloat("cantidad");
+					cantidad=rst.getFloat("cantidadSumada");
 					listaCantidad.add(cantidad);
 					
-					System.out.println(cantidad+" cantidad");
 				}
 			}
 			
