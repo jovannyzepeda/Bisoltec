@@ -875,7 +875,7 @@ public class InterfazPrincipal extends JFrame {
 				btnMovimientosHoy.setEnabled(true);
 				
 				pk_movimiento=movimiento.ultimoMovimiento(conexion.conectar());
-				System.out.println(pk_movimiento+" ultimo movimiento");
+				
 			}
 		});
 		btnMovimientosNuevo.setBounds(136, 241, 89, 23);
@@ -1401,6 +1401,11 @@ public void LimpiarMovimiento(){
 	movimiento.listaMovimientos.clear();
 	movimiento.AgregarSugerenciaMovimiento(conexion.conectar());
 	AutoCompletarMovimiento.addItems(movimiento.listaMovimientos);
+	
+	
+	
+	
+	
 	
 
 }

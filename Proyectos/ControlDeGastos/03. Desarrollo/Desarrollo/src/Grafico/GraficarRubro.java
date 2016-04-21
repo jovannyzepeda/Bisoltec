@@ -91,7 +91,7 @@ public class GraficarRubro extends JFrame {
 	        pieplot3d.setDepthFactor(0.09);//angulo para mostrar
 	        pieplot3d.setStartAngle(209D);//angulo donde comienza a graficar
 	        pieplot3d.setDirection(Rotation.CLOCKWISE);//grafica hacia las maneillas del reloj
-	        pieplot3d.setForegroundAlpha(0.6F);//transparencia en el grafico
+	        pieplot3d.setForegroundAlpha(0.8F);//transparencia en el grafico
 	        panel.setLayout(null);
 
 
@@ -188,6 +188,8 @@ public class GraficarRubro extends JFrame {
 	        btnGraficar = new JButton("Graficar");
 	        btnGraficar.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
+	        		
+	        		data.clear();
 	        		String fechaInicial, diaInicial,mesInicial,añoInicial;
 	        		String fechaFinal, diaFinal,mesFinal,añoFinal;
 	        		
@@ -230,8 +232,12 @@ public class GraficarRubro extends JFrame {
 	       	     
 	       	      
 	       
-	       	
-	     	        // Creando el Grafico
+	       	      graficarRubros.listaCantidad.clear();
+	       	      graficarRubros.listaRubros.clear();
+	       	      fechaFinal="";
+	       	      fechaInicial="";
+	     	      
+	       	      
 	     	      
 	        		
 	        	}
