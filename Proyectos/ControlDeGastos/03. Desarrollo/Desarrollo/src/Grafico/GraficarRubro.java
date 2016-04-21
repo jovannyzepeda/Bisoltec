@@ -48,11 +48,12 @@ public class GraficarRubro extends JFrame {
 	private JTextField txtDiaFinal;
 	private JTextField txtMesFinal;
 	private JTextField txtAñoFinal;
-	private JButton button;
+	private JButton btnHoyFinal;
 	private JLabel lblDia;
 	private JLabel lblMes;
 	private JLabel lblAo;
 	private JButton btnGraficar;
+	private JButton btnHoyInicial;
 
 
 	/**
@@ -141,8 +142,8 @@ public class GraficarRubro extends JFrame {
 	        lblFechaFinal.setBounds(10, 482, 89, 14);
 	        panel.add(lblFechaFinal);
 	        
-	        button = new JButton("Hoy");
-	        button.addActionListener(new ActionListener() {
+	        btnHoyFinal = new JButton("Hoy");
+	        btnHoyFinal.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent arg0) {
 	        		
 	        		Calendar Fecha = Calendar.getInstance();
@@ -169,19 +170,19 @@ public class GraficarRubro extends JFrame {
 	        		
 	        	}
 	        });
-	        button.setHorizontalAlignment(SwingConstants.LEFT);
-	        button.setBounds(202, 478, 36, 23);
-	        panel.add(button);
+	        btnHoyFinal.setHorizontalAlignment(SwingConstants.LEFT);
+	        btnHoyFinal.setBounds(202, 478, 36, 23);
+	        panel.add(btnHoyFinal);
 	        
-	        lblDia = new JLabel("Dia");
+	        lblDia = new JLabel("DD");
 	        lblDia.setBounds(109, 433, 21, 14);
 	        panel.add(lblDia);
 	        
-	        lblMes = new JLabel("Mes");
+	        lblMes = new JLabel("MM");
 	        lblMes.setBounds(140, 433, 36, 14);
 	        panel.add(lblMes);
 	        
-	        lblAo = new JLabel("A\u00F1o");
+	        lblAo = new JLabel("AA");
 	        lblAo.setBounds(171, 433, 21, 14);
 	        panel.add(lblAo);
 	        
@@ -244,5 +245,38 @@ public class GraficarRubro extends JFrame {
 	        });
 	        btnGraficar.setBounds(599, 461, 89, 23);
 	        panel.add(btnGraficar);
+	        
+	        btnHoyInicial = new JButton("Hoy");
+	        btnHoyInicial.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent arg0) {
+	        		
+	        		
+	        		Calendar Fecha = Calendar.getInstance();
+					String dia = Integer.toString(Fecha.get(Calendar.DATE));
+					String mes = Integer.toString(Fecha.get(Calendar.MONTH)+1);
+					String año = Integer.toString(Fecha.get(Calendar.YEAR));
+					
+					if(dia.length()==1){
+						dia="0"+dia;
+						
+					}
+					if(mes.length()==1){
+						mes="0"+mes;
+					}
+					
+					año=año.substring(2, año.length());
+					
+					
+					fecha=dia+"-"+mes+"-"+año;
+					
+					txtDiaInicial.setText(dia);
+					txtMesInicial.setText(mes);
+					txtAñoInicial.setText(año);
+	        		
+	        	}
+	        });
+	        btnHoyInicial.setHorizontalAlignment(SwingConstants.LEFT);
+	        btnHoyInicial.setBounds(202, 447, 36, 23);
+	        panel.add(btnHoyInicial);
 	}
 }
