@@ -35,6 +35,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import javax.swing.JSeparator;
+import javax.swing.JToggleButton;
 
 
 public class InterfazPrincipal extends JFrame {
@@ -46,6 +47,8 @@ public class InterfazPrincipal extends JFrame {
 	PostgreSQL.Rubro rubro=new Rubro();
 	PostgreSQL.Subrubro subrubro=new Subrubro();
 	PostgreSQL.Movimiento movimiento=new Movimiento();
+	
+	Grafico.GraficarRubro graficaRubro;
 	
 	static String acryl="com.jtattoo.plaf.acryl.AcrylLookAndFeel";
 	
@@ -99,6 +102,18 @@ public class InterfazPrincipal extends JFrame {
 	private JButton btnMovimientosHoy;
 	private JComboBox cmbMovimientosCuenta;
 	private JButton btnMovimientosBuscar;
+	private JLayeredPane layeredPane_2;
+	private JCheckBox chckbxEntradas;
+	private JCheckBox checkBox;
+	private JTextField txtTraspasosSaldo;
+	private JButton btnTraspasosGuardar;
+	private JButton btnTraspasoBuscar;
+	private JButton btnTraspasosEliminar;
+	private JButton btnTraspasoCancelar;
+	private JComboBox cmbTraspasosDestino;
+	private JComboBox cmbTraspasosOrigen;
+	private JButton btnTraspasosNuevo;
+	private JButton btnTraspasosModificar;
 	/**
 	 * Launch the application.
 	 */
@@ -140,7 +155,7 @@ public class InterfazPrincipal extends JFrame {
 		setResizable(false);
 		setTitle("Control De Gastos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 254, 384);
+		setBounds(100, 100, 254, 409);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -151,7 +166,7 @@ public class InterfazPrincipal extends JFrame {
 		panel.setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 240, 350);
+		tabbedPane.setBounds(0, 0, 240, 370);
 		panel.add(tabbedPane);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
@@ -166,6 +181,7 @@ public class InterfazPrincipal extends JFrame {
 		AutoCompletarCuenta=new TextAutoCompleter(txtNombre);
 		
 		txtSaldo = new JTextField();
+		txtSaldo.setEnabled(false);
 		txtSaldo.setColumns(10);
 		txtSaldo.setBounds(86, 54, 118, 20);
 		layeredPane.add(txtSaldo);
@@ -243,6 +259,7 @@ public class InterfazPrincipal extends JFrame {
 				btnNuevo.setEnabled(false);
 				btnGuardar.setEnabled(true);
 				btnLimpiar.setVisible(true);
+				txtSaldo.setEnabled(true);
 				
 			}
 		});
@@ -316,7 +333,7 @@ public class InterfazPrincipal extends JFrame {
 					btnGuardar.setVisible(false);
 					btnLimpiar.setVisible(true);
 					btnNuevo.setEnabled(false);
-					
+					txtSaldo.setEnabled(true);
 					
 				
 				}
@@ -339,7 +356,7 @@ public class InterfazPrincipal extends JFrame {
 				LimpiarCuenta();
 			}
 		});
-		btnLimpiar.setBounds(21, 207, 89, 23);
+		btnLimpiar.setBounds(21, 204, 89, 23);
 		layeredPane.add(btnLimpiar);
 		
 		
@@ -400,6 +417,7 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_6.add(lblDecripcin);
 		
 		JLabel lblTipoDeMovimiento = new JLabel("Tipo de Movimiento");
+		lblTipoDeMovimiento.setEnabled(false);
 		lblTipoDeMovimiento.setBounds(62, 77, 111, 20);
 		layeredPane_6.add(lblTipoDeMovimiento);
 		
@@ -460,8 +478,8 @@ public class InterfazPrincipal extends JFrame {
 				btnRubroNuevo.setEnabled(false);
 				btnRubroGuardar.setEnabled(true);
 				btnRubroCancelar.setVisible(true);
-				
-				
+				rdbtnEntradaRubro.setEnabled(true);
+				rdbtnSalidaRubro.setEnabled(true);
 			}
 		});
 		btnRubroNuevo.setBounds(136, 241, 89, 23);
@@ -495,6 +513,7 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_6.add(btnRubroEliminar);
 		
 		rdbtnEntradaRubro = new JRadioButton("Entrada");
+		rdbtnEntradaRubro.setEnabled(false);
 		rdbtnEntradaRubro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnSalidaRubro.setSelected(false);
@@ -506,6 +525,7 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_6.add(rdbtnEntradaRubro);
 		
 		rdbtnSalidaRubro = new JRadioButton("Salida");
+		rdbtnSalidaRubro.setEnabled(false);
 		rdbtnSalidaRubro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				rdbtnEntradaRubro.setSelected(false);
@@ -551,7 +571,8 @@ public class InterfazPrincipal extends JFrame {
 					btnRubroCancelar.setVisible(true);
 					btnRubroNuevo.setEnabled(false);
 					
-					
+					rdbtnEntradaRubro.setEnabled(true);
+					rdbtnSalidaRubro.setEnabled(true);
 				
 				}
 				else{
@@ -695,6 +716,8 @@ public class InterfazPrincipal extends JFrame {
 				btnSubrubroNuevo.setEnabled(false);
 				btnSubrubroGuardar.setEnabled(true);
 				btnSubrubroCancelar.setVisible(true);
+				
+				cmbSubrubroRubro.setEnabled(true);
 			}
 		});
 		btnSubrubroNuevo.setBounds(136, 241, 89, 23);
@@ -728,6 +751,7 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_5.add(btnSubrubroEliminar);
 		
 		cmbSubrubroRubro = new JComboBox();
+		cmbSubrubroRubro.setEnabled(false);
 		cmbSubrubroRubro.setModel(new DefaultComboBoxModel(new String[] {"-----"}));
 		cmbSubrubroRubro.setBounds(86, 53, 117, 20);
 		layeredPane_5.add(cmbSubrubroRubro);
@@ -766,7 +790,7 @@ public class InterfazPrincipal extends JFrame {
 					btnSubrubroGuardar.setVisible(false);
 					btnSubrubroCancelar.setVisible(true);
 					btnSubrubroNuevo.setEnabled(false);
-					
+					cmbSubrubroRubro.setEnabled(true);
 				}
 				else{
 					JOptionPane.showMessageDialog(null, "No se encontró el Subrubro");
@@ -850,6 +874,7 @@ public class InterfazPrincipal extends JFrame {
 		
 		
 		txtMovimientoCantidad = new JTextField();
+		txtMovimientoCantidad.setEnabled(false);
 		txtMovimientoCantidad.setColumns(10);
 		txtMovimientoCantidad.setBounds(105, 42, 99, 20);
 		layeredPane_1.add(txtMovimientoCantidad);
@@ -872,8 +897,16 @@ public class InterfazPrincipal extends JFrame {
 				btnMovimientosCancelar.setVisible(true);
 				btnMovimientosHoy.setEnabled(true);
 				
+				txtMovimientoCantidad.setEnabled(true);
+				txtMovimientosAño.setEnabled(true);
+				txtMovimientosDia.setEnabled(true);
+				txtMovimientosMes.setEnabled(true);
+				
+				cmbMovimientosCuenta.setEnabled(true);
+				cmbMovimientosSubrubro.setEnabled(true);
+				
 				pk_movimiento=movimiento.ultimoMovimiento(conexion.conectar());
-				System.out.println(pk_movimiento+" ultimo movimiento");
+				
 			}
 		});
 		btnMovimientosNuevo.setBounds(136, 241, 89, 23);
@@ -911,16 +944,19 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_1.add(lblFecha);
 		
 		txtMovimientosDia = new JTextField();
+		txtMovimientosDia.setEnabled(false);
 		txtMovimientosDia.setBounds(86, 73, 20, 20);
 		layeredPane_1.add(txtMovimientosDia);
 		txtMovimientosDia.setColumns(10);
 		
 		txtMovimientosMes = new JTextField();
+		txtMovimientosMes.setEnabled(false);
 		txtMovimientosMes.setColumns(10);
 		txtMovimientosMes.setBounds(112, 73, 20, 20);
 		layeredPane_1.add(txtMovimientosMes);
 		
 		txtMovimientosAño = new JTextField();
+		txtMovimientosAño.setEnabled(false);
 		txtMovimientosAño.setColumns(10);
 		txtMovimientosAño.setBounds(138, 73, 20, 20);
 		layeredPane_1.add(txtMovimientosAño);
@@ -961,11 +997,13 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_1.add(btnMovimientosHoy);
 		
 		cmbMovimientosSubrubro = new JComboBox();
+		cmbMovimientosSubrubro.setEnabled(false);
 		cmbMovimientosSubrubro.setModel(new DefaultComboBoxModel(new String[] {"------"}));
 		cmbMovimientosSubrubro.setBounds(86, 105, 118, 20);
 		layeredPane_1.add(cmbMovimientosSubrubro);
 		
 		cmbMovimientosCuenta = new JComboBox();
+		cmbMovimientosCuenta.setEnabled(false);
 		cmbMovimientosCuenta.setModel(new DefaultComboBoxModel(new String[] {"------"}));
 		cmbMovimientosCuenta.setBounds(86, 136, 118, 20);
 		layeredPane_1.add(cmbMovimientosCuenta);
@@ -1026,6 +1064,14 @@ public class InterfazPrincipal extends JFrame {
 					btnMovimientosCancelar.setVisible(true);
 					btnMovimientosNuevo.setEnabled(false);
 					btnMovimientosHoy.setEnabled(true);
+					
+					txtMovimientoCantidad.setEnabled(true);
+					txtMovimientosAño.setEnabled(true);
+					txtMovimientosDia.setEnabled(true);
+					txtMovimientosMes.setEnabled(true);
+					
+					cmbMovimientosCuenta.setEnabled(true);
+					cmbMovimientosSubrubro.setEnabled(true);
 					
 				}
 				else{
@@ -1175,13 +1221,100 @@ public class InterfazPrincipal extends JFrame {
 		btnMovimientosModificar.setBounds(136, 272, 89, 23);
 		layeredPane_1.add(btnMovimientosModificar);
 		
+		
+		cmbMovimientosSubrubro.removeAllItems();
+		cmbMovimientosSubrubro.addItem("-----");
+		
+		
+		
+		cmbMovimientosCuenta.removeAllItems();
+		cmbMovimientosCuenta.addItem("-----");
+		
+		layeredPane_2 = new JLayeredPane();
+		tabbedPane.addTab("5-Traspasos", null, layeredPane_2, null);
+		layeredPane_2.setLayout(null);
+		
+		JLabel label = new JLabel("Saldo    $");
+		label.setBounds(49, 39, 64, 27);
+		layeredPane_2.add(label);
+		
+		txtTraspasosSaldo = new JTextField();
+		txtTraspasosSaldo.setBounds(102, 42, 86, 20);
+		layeredPane_2.add(txtTraspasosSaldo);
+		txtTraspasosSaldo.setColumns(10);
+		
+		cmbTraspasosOrigen = new JComboBox();
+		cmbTraspasosOrigen.setBounds(73, 93, 124, 20);
+		cmbTraspasosOrigen.setModel(new DefaultComboBoxModel(new String[] {"-----"}));
+		layeredPane_2.add(cmbTraspasosOrigen);
+		
+		cmbTraspasosDestino = new JComboBox();
+		cmbTraspasosDestino.setBounds(73, 126, 124, 20);
+		cmbTraspasosDestino.setModel(new DefaultComboBoxModel(new String[] {"-----"}));
+		layeredPane_2.add(cmbTraspasosDestino);
+		
+		JLabel label_2 = new JLabel("Origen");
+		label_2.setBounds(28, 93, 64, 20);
+		layeredPane_2.add(label_2);
+		
+		JLabel label_3 = new JLabel("Destino");
+		label_3.setBounds(28, 126, 64, 20);
+		layeredPane_2.add(label_3);
+		
+		btnTraspasosGuardar = new JButton("Guardar");
+		btnTraspasosGuardar.setEnabled(false);
+		btnTraspasosGuardar.setBounds(136, 272, 89, 23);
+		layeredPane_2.add(btnTraspasosGuardar);
+		
+		btnTraspasosNuevo = new JButton("Nuevo");
+		btnTraspasosNuevo.setBounds(136, 238, 89, 23);
+		layeredPane_2.add(btnTraspasosNuevo);
+		
+		btnTraspasoBuscar = new JButton("Guardar");
+		btnTraspasoBuscar.setBounds(136, 204, 89, 23);
+		layeredPane_2.add(btnTraspasoBuscar);
+		
+		btnTraspasoCancelar = new JButton("Cancelar");
+		btnTraspasoCancelar.setVisible(false);
+		btnTraspasoCancelar.setBounds(24, 204, 89, 23);
+		layeredPane_2.add(btnTraspasoCancelar);
+		
+		btnTraspasosEliminar = new JButton("Eliminar");
+		btnTraspasosEliminar.setEnabled(false);
+		btnTraspasosEliminar.setBounds(28, 272, 89, 23);
+		layeredPane_2.add(btnTraspasosEliminar);
+		
+		btnTraspasosModificar = new JButton("Modificar");
+		btnTraspasosModificar.setBounds(136, 272, 89, 23);
+		layeredPane_2.add(btnTraspasosModificar);
+		
 		JLayeredPane layeredPane_4 = new JLayeredPane();
-		tabbedPane.addTab("5-Gr\u00E1ficos", null, layeredPane_4, null);
+		tabbedPane.addTab("6-Gr\u00E1ficos", null, layeredPane_4, null);
 		layeredPane_4.setLayout(null);
 		
 		JButton btnGraficarPorRubro = new JButton("Rubro");
-		btnGraficarPorRubro.setBounds(136, 30, 89, 23);
+		btnGraficarPorRubro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				graficaRubro=new GraficarRubro();
+				graficaRubro.setVisible(true);
+				
+			}
+		});
+		btnGraficarPorRubro.setBounds(136, 44, 89, 23);
 		layeredPane_4.add(btnGraficarPorRubro);
+		
+		chckbxEntradas = new JCheckBox("Entradas");
+		chckbxEntradas.setBounds(33, 29, 97, 23);
+		layeredPane_4.add(chckbxEntradas);
+		
+		checkBox = new JCheckBox("Salidas");
+		checkBox.setBounds(33, 56, 97, 23);
+		layeredPane_4.add(checkBox);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 99, 215, 2);
+		layeredPane_4.add(separator);
 		
 		
 		
@@ -1194,10 +1327,6 @@ public class InterfazPrincipal extends JFrame {
 		i++;
 		}
 		rubro.listaRubros.clear();
-		
-		
-		cmbMovimientosSubrubro.removeAllItems();
-		cmbMovimientosSubrubro.addItem("-----");
 		subrubro.AgregarSubrubroComboBox(conexion.conectar());
 		 i=0;
 		while(subrubro.listaSubrubros.size()!=i){
@@ -1205,11 +1334,6 @@ public class InterfazPrincipal extends JFrame {
 		i++;
 		}
 		subrubro.listaSubrubros.clear();
-		
-		
-		
-		cmbMovimientosCuenta.removeAllItems();
-		cmbMovimientosCuenta.addItem("-----");
 		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
 		 i=0;
 		while(cuenta.listaCuentas.size()!=i){
@@ -1274,6 +1398,7 @@ public class InterfazPrincipal extends JFrame {
 		btnNuevo.setEnabled(true);
 		btnBuscar_1.setEnabled(true);
 		btnEliminar.setEnabled(false);
+		txtSaldo.setEnabled(false);
 		
 		cuenta.setPk_cuenta(0);
 		
@@ -1290,6 +1415,9 @@ public void LimpiarRubro(){
 		txtRubroDescripcion.setText("");
 		rdbtnEntradaRubro.setSelected(false);
 		rdbtnSalidaRubro.setSelected(false);
+		
+		rdbtnEntradaRubro.setEnabled(false);
+		rdbtnSalidaRubro.setEnabled(false);
 		
 		btnRubroBuscar.setVisible(true);
 		btnRubroNuevo.setVisible(true);
@@ -1324,6 +1452,7 @@ public void LimpiarSubrubro(){
 	
 	txtSubrubroDescripcion.setText("");
 	cmbSubrubroRubro.setSelectedIndex(0);
+	cmbSubrubroRubro.setEnabled(false);
 	
 	btnSubrubroBuscar.setVisible(true);
 	btnSubrubroNuevo.setVisible(true);
@@ -1335,7 +1464,7 @@ public void LimpiarSubrubro(){
 	btnSubrubroBuscar.setEnabled(true);
 	btnSubrubroEliminar.setEnabled(false);
 	
-	subrubro.setPk_rubro(0);
+	subrubro.setPk_subrubro(0);
 	
 	AutoCompletarSubrubro.removeAllItems();
 	subrubro.listaSubrubros.clear();
@@ -1382,6 +1511,14 @@ public void LimpiarMovimiento(){
 	btnMovimientosEliminar.setEnabled(false);
 	btnMovimientosHoy.setEnabled(false);
 	
+	txtMovimientoCantidad.setEnabled(false);
+	txtMovimientosAño.setEnabled(false);
+	txtMovimientosDia.setEnabled(false);
+	txtMovimientosMes.setEnabled(false);
+	
+	cmbMovimientosCuenta.setEnabled(false);
+	cmbMovimientosSubrubro.setEnabled(false);
+	
 	cmbMovimientosCuenta.setSelectedIndex(0);
 	cmbMovimientosSubrubro.setSelectedIndex(0);
 	
@@ -1391,7 +1528,35 @@ public void LimpiarMovimiento(){
 	movimiento.listaMovimientos.clear();
 	movimiento.AgregarSugerenciaMovimiento(conexion.conectar());
 	AutoCompletarMovimiento.addItems(movimiento.listaMovimientos);
-	
 
 }
+
+
+public void LimpiarTraspaso(){
+	
+	txtTraspasosSaldo.setText("");
+	
+	
+	btnTraspasoBuscar.setVisible(true);
+	btnTraspasosNuevo.setVisible(true);
+	btnTraspasosGuardar.setEnabled(false);
+	btnTraspasoCancelar.setVisible(false);
+	btnTraspasosModificar.setVisible(false);
+	btnTraspasosGuardar.setVisible(true);
+	btnTraspasosNuevo.setEnabled(true);
+	btnTraspasoBuscar.setEnabled(true);
+	btnTraspasosEliminar.setEnabled(false);
+	
+	cuenta.setPk_cuenta(0);
+	
+	AutoCompletarCuenta.removeAllItems();
+	cuenta.listaCuentas.clear();
+	cuenta.AgregarSugerenciaCuenta(conexion.conectar());
+	AutoCompletarCuenta.addItems(cuenta.listaCuentas);
+	
+	
+}
+
+
+
 }

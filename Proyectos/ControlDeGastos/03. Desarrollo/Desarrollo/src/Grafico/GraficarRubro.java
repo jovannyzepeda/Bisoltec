@@ -11,6 +11,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.data.general.DatasetGroup;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.Rotation;
 
@@ -27,6 +28,7 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class GraficarRubro extends JFrame {
 
@@ -36,6 +38,8 @@ public class GraficarRubro extends JFrame {
 	
 	String fecha=null;
 	
+	 DefaultPieDataset data = new DefaultPieDataset();
+	
 	private JPanel contentPane;
 	private JPanel panel;
 	private JTextField txtDiaInicial;
@@ -44,49 +48,20 @@ public class GraficarRubro extends JFrame {
 	private JTextField txtDiaFinal;
 	private JTextField txtMesFinal;
 	private JTextField txtAñoFinal;
-	private JButton button;
+	private JButton btnHoyFinal;
 	private JLabel lblDia;
 	private JLabel lblMes;
 	private JLabel lblAo;
 	private JButton btnGraficar;
+	private JButton btnHoyInicial;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				
-				try
-				
-				{
-				    JFrame.setDefaultLookAndFeelDecorated(true);
-				    JDialog.setDefaultLookAndFeelDecorated(true);
-				    UIManager.setLookAndFeel(acryl);
-
-				}
-
-				catch (Exception e)
-
-				{
-				    e.printStackTrace();
-				}
-				
-				try {
-					GraficarRubro frame = new GraficarRubro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public GraficarRubro() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 724, 561);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,7 +75,7 @@ public class GraficarRubro extends JFrame {
 		
 		 getContentPane().add(panel);
 	        // Fuente de Datos
-	        DefaultPieDataset data = new DefaultPieDataset();
+	       
 
 	       
 	      
@@ -117,7 +92,7 @@ public class GraficarRubro extends JFrame {
 	        pieplot3d.setDepthFactor(0.09);//angulo para mostrar
 	        pieplot3d.setStartAngle(209D);//angulo donde comienza a graficar
 	        pieplot3d.setDirection(Rotation.CLOCKWISE);//grafica hacia las maneillas del reloj
-	        pieplot3d.setForegroundAlpha(0.4F);//transparencia en el grafico
+	        pieplot3d.setForegroundAlpha(0.8F);//transparencia en el grafico
 	        panel.setLayout(null);
 
 
@@ -167,8 +142,8 @@ public class GraficarRubro extends JFrame {
 	        lblFechaFinal.setBounds(10, 482, 89, 14);
 	        panel.add(lblFechaFinal);
 	        
-	        button = new JButton("Hoy");
-	        button.addActionListener(new ActionListener() {
+	        btnHoyFinal = new JButton("Hoy");
+	        btnHoyFinal.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent arg0) {
 	        		
 	        		Calendar Fecha = Calendar.getInstance();
@@ -195,25 +170,27 @@ public class GraficarRubro extends JFrame {
 	        		
 	        	}
 	        });
-	        button.setHorizontalAlignment(SwingConstants.LEFT);
-	        button.setBounds(202, 478, 36, 23);
-	        panel.add(button);
+	        btnHoyFinal.setHorizontalAlignment(SwingConstants.LEFT);
+	        btnHoyFinal.setBounds(202, 478, 36, 23);
+	        panel.add(btnHoyFinal);
 	        
-	        lblDia = new JLabel("Dia");
+	        lblDia = new JLabel("DD");
 	        lblDia.setBounds(109, 433, 21, 14);
 	        panel.add(lblDia);
 	        
-	        lblMes = new JLabel("Mes");
+	        lblMes = new JLabel("MM");
 	        lblMes.setBounds(140, 433, 36, 14);
 	        panel.add(lblMes);
 	        
-	        lblAo = new JLabel("A\u00F1o");
+	        lblAo = new JLabel("AA");
 	        lblAo.setBounds(171, 433, 21, 14);
 	        panel.add(lblAo);
 	        
 	        btnGraficar = new JButton("Graficar");
 	        btnGraficar.addActionListener(new ActionListener() {
 	        	public void actionPerformed(ActionEvent e) {
+	        		
+	        		data.clear();
 	        		String fechaInicial, diaInicial,mesInicial,añoInicial;
 	        		String fechaFinal, diaFinal,mesFinal,añoFinal;
 	        		
@@ -232,11 +209,74 @@ public class GraficarRubro extends JFrame {
 	        		 graficarRubros.setFechaFinal(fechaFinal);
 	        		 graficarRubros.setFechaInicial(fechaInicial);
 	        		 
-	        		 graficarRubros.AgregarSugerenciaRubro(conexion.conectar());
+	        		 
+	        		 
+	        		 graficarRubros.RecaudarDatos(conexion.conectar());
+	        		 
+	        		
+
+	      	       String rubro = null;
+	      	       float cantidad = 0;
+	       	      int iterador=0;
+	       	      
+	       	     
+	       	      while(iterador<graficarRubros.listaRubros.size()){
+	       	    	
+	       	    	rubro=graficarRubros.listaRubros.get(iterador).toString();
+	       	    	cantidad=Float.parseFloat(graficarRubros.listaCantidad.get(iterador).toString());
+	       	    	data.setValue(rubro+" $"+cantidad, cantidad);
+	       	    	iterador++;
+	       	    	
+	       	      }
+	       	      
+	       	  
+	       	     
+	       	      
+	       
+	       	      graficarRubros.listaCantidad.clear();
+	       	      graficarRubros.listaRubros.clear();
+	       	      fechaFinal="";
+	       	      fechaInicial="";
+	     	      
+	       	      
+	     	      
 	        		
 	        	}
 	        });
 	        btnGraficar.setBounds(599, 461, 89, 23);
 	        panel.add(btnGraficar);
+	        
+	        btnHoyInicial = new JButton("Hoy");
+	        btnHoyInicial.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent arg0) {
+	        		
+	        		
+	        		Calendar Fecha = Calendar.getInstance();
+					String dia = Integer.toString(Fecha.get(Calendar.DATE));
+					String mes = Integer.toString(Fecha.get(Calendar.MONTH)+1);
+					String año = Integer.toString(Fecha.get(Calendar.YEAR));
+					
+					if(dia.length()==1){
+						dia="0"+dia;
+						
+					}
+					if(mes.length()==1){
+						mes="0"+mes;
+					}
+					
+					año=año.substring(2, año.length());
+					
+					
+					fecha=dia+"-"+mes+"-"+año;
+					
+					txtDiaInicial.setText(dia);
+					txtMesInicial.setText(mes);
+					txtAñoInicial.setText(año);
+	        		
+	        	}
+	        });
+	        btnHoyInicial.setHorizontalAlignment(SwingConstants.LEFT);
+	        btnHoyInicial.setBounds(202, 447, 36, 23);
+	        panel.add(btnHoyInicial);
 	}
 }
