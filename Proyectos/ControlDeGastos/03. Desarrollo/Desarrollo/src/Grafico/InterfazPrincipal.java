@@ -1270,7 +1270,7 @@ public class InterfazPrincipal extends JFrame {
 		btnTraspasosNuevo.setBounds(136, 238, 89, 23);
 		layeredPane_2.add(btnTraspasosNuevo);
 		
-		btnTraspasoBuscar = new JButton("Guardar");
+		btnTraspasoBuscar = new JButton("Buscar");
 		btnTraspasoBuscar.setBounds(136, 204, 89, 23);
 		layeredPane_2.add(btnTraspasoBuscar);
 		
