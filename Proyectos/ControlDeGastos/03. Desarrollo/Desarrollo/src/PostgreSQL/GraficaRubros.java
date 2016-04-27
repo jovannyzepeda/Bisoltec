@@ -55,7 +55,7 @@ public void setFechaFinal(String fechaFinal) {
 				//con executeQuery REALIZA LAS CONSULTAS ESPECIFICAS
 				
 				
-				estatuto.executeQuery("select  r.descripcion , sum(m.cantidad) as cantidadSumada from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"' GROUP BY  r.descripcion");
+				estatuto.executeQuery("select  r.descripcion , sum(m.cantidad) as cantidadSumada from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and r.tipomovimiento='salida' and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"' GROUP BY  r.descripcion");
 				
 				rst=estatuto.getResultSet();
 				
