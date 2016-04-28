@@ -39,6 +39,10 @@ import java.util.Calendar;
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 import javax.swing.JSplitPane;
+import javax.swing.border.BevelBorder;
+import java.awt.ComponentOrientation;
+import javax.swing.JTextArea;
+import java.awt.Font;
 
 
 public class InterfazPrincipal extends JFrame {
@@ -52,8 +56,10 @@ public class InterfazPrincipal extends JFrame {
 	PostgreSQL.Movimiento movimiento=new Movimiento();
 	PostgreSQL.Traspasos traspaso=new Traspasos();
 	
+	Grafico.GraficaPuntosRubroTotales graficoPuntosRubroTotales;
+	Grafico.GraficaPuntosUnRubroTotal graficaPuntosUnRubroTotales;
 	Grafico.GraficarRubro graficaRubro;
-	
+	Grafico.GraficarSubrubro graficaSubrubro;
 	static String acryl="com.jtattoo.plaf.acryl.AcrylLookAndFeel";
 	
 	
@@ -118,6 +124,11 @@ public class InterfazPrincipal extends JFrame {
 	private JButton btnTraspasosNuevo;
 	private JButton btnTraspasosModificar;
 	private JButton btnGraficarPorSubrubros;
+	private JButton btnPorRubro;
+	private JButton btnTotalRubros;
+	private JLabel lblGraficaDeMonitoreo;
+	private JCheckBox ckbLineas;
+	private JCheckBox chkbBarras;
 	/**
 	 * Launch the application.
 	 */
@@ -132,6 +143,7 @@ public class InterfazPrincipal extends JFrame {
 					    JFrame.setDefaultLookAndFeelDecorated(true);
 					    JDialog.setDefaultLookAndFeelDecorated(true);
 					    UIManager.setLookAndFeel(acryl);
+					   
 
 					}
 
@@ -143,6 +155,7 @@ public class InterfazPrincipal extends JFrame {
 					
 					
 					InterfazPrincipal frame = new InterfazPrincipal();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1372,23 +1385,66 @@ public class InterfazPrincipal extends JFrame {
 				
 			}
 		});
-		btnGraficarPorRubro.setBounds(10, 65, 89, 23);
+		btnGraficarPorRubro.setBounds(10, 75, 89, 23);
 		layeredPane_4.add(btnGraficarPorRubro);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 99, 215, 2);
+		separator.setBounds(10, 109, 215, 2);
 		layeredPane_4.add(separator);
 		
 		btnGraficarPorSubrubros = new JButton("Subrubros");
-		btnGraficarPorSubrubros.setBounds(136, 65, 89, 23);
+		btnGraficarPorSubrubros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				graficaSubrubro=new GraficarSubrubro();
+				graficaSubrubro.setVisible(true);
+			}
+		});
+		btnGraficarPorSubrubros.setBounds(136, 75, 89, 23);
 		layeredPane_4.add(btnGraficarPorSubrubros);
 		
-		JLabel lblSalidas = new JLabel("Salidas");
+		JLabel lblSalidas = new JLabel("Graficas de Porcentajes");
+		lblSalidas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblSalidas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSalidas.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblSalidas.setEnabled(false);
 		lblSalidas.setBounds(10, 0, 215, 65);
 		layeredPane_4.add(lblSalidas);
+		
+		btnTotalRubros = new JButton(" Todo");
+		btnTotalRubros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				graficoPuntosRubroTotales=new GraficaPuntosRubroTotales(); 
+				graficoPuntosRubroTotales.setVisible(true);
+			}
+		});
+		btnTotalRubros.setBounds(136, 258, 89, 23);
+		layeredPane_4.add(btnTotalRubros);
+		
+		btnPorRubro = new JButton("Por Rubro");
+		btnPorRubro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				graficaPuntosUnRubroTotales=new GraficaPuntosUnRubroTotal();
+				graficaPuntosUnRubroTotales.setVisible(true);
+			}
+		});
+		btnPorRubro.setBounds(10, 258, 89, 23);
+		layeredPane_4.add(btnPorRubro);
+		
+		lblGraficaDeMonitoreo = new JLabel("Graficas de Monitoreo");
+		lblGraficaDeMonitoreo.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblGraficaDeMonitoreo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGraficaDeMonitoreo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblGraficaDeMonitoreo.setEnabled(false);
+		lblGraficaDeMonitoreo.setBounds(10, 122, 215, 65);
+		layeredPane_4.add(lblGraficaDeMonitoreo);
+		
+		chkbBarras = new JCheckBox("Barras");
+		chkbBarras.setBounds(128, 194, 97, 23);
+		layeredPane_4.add(chkbBarras);
+		
+		ckbLineas = new JCheckBox("Lineas");
+		ckbLineas.setBounds(10, 194, 97, 23);
+		layeredPane_4.add(ckbLineas);
 		
 		
 		

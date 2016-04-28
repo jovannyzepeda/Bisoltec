@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class GraficaSubrubro {
-	
-	public ArrayList<Object> listaSubrubros=new ArrayList<Object>();
+public class GraficaPuntosRubroTotal {
+
+	public ArrayList<Object> listaMes=new ArrayList<Object>();
 	public ArrayList<Object> listaCantidad=new ArrayList<Object>();	
 		
 	String fechaInicial,fechaFinal;	
@@ -53,7 +53,7 @@ public class GraficaSubrubro {
 					//con executeQuery REALIZA LAS CONSULTAS ESPECIFICAS
 					
 					
-					estatuto.executeQuery("select  sr.descripcion , sum(m.cantidad) as cantidadSumada from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and r.tipomovimiento='salida' and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"' GROUP BY  sr.descripcion");
+					estatuto.executeQuery("select  date_part('month'::text,m.fecha)as mes , sum(m.cantidad) as cantidadSumada from rubro r, movimiento m, subrubro sr where m.PK_subrubro=sr.PK_subrubro and r.tipomovimiento='salida' and sr.PK_rubro=r.PK_rubro and m.fecha between '"+this.fechaInicial+"' and '"+this.fechaFinal+"' GROUP BY  date_part('month'::text,m.fecha) order by date_part('month'::text,m.fecha)");
 					
 					rst=estatuto.getResultSet();
 					
@@ -61,8 +61,8 @@ public class GraficaSubrubro {
 					
 					while(rst.next()){
 						i++;
-						descripcion=rst.getString("descripcion");
-						listaSubrubros.add(descripcion);
+						descripcion=rst.getString("mes");
+						listaMes.add(descripcion);
 						
 						cantidad=rst.getFloat("cantidadSumada");
 						listaCantidad.add(cantidad);
@@ -74,5 +74,5 @@ public class GraficaSubrubro {
 				JOptionPane.showMessageDialog(null, "Se ha provocado un error "+e, "Error", JOptionPane.ERROR_MESSAGE);;
 			}
 		}
-
+	
 }
