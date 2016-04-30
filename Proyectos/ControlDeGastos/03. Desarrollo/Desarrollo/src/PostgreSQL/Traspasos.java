@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Traspasos {
 
@@ -14,7 +15,8 @@ public ArrayList<Object> listaTraspasos=new ArrayList<Object>();
 	
 	
 	
-
+	Conexion conexion1=new Conexion();
+	Cuenta cuenta=new Cuenta();
 	int pk_cuenta,fk_original,fk_destino,max;
 	float saldo;
 	
@@ -98,10 +100,10 @@ public int ultimoTraspaso(Connection conexion){
 }
 
 
-/*public void modificarTraspaso(Connection conn){
+public void modificarTraspaso(Connection conn){
      try {
             try (Statement estatuto = conn.createStatement()) {
-          estatuto.executeUpdate("UPDATE traspasos SET pk_cuenta ='"+this.pk_cuenta+"', fk_original = '"+this.fk_original+"', saldo = '"+this.saldo+"', fk_destino = '"+this.fk_destino+"'");
+          estatuto.executeUpdate("UPDATE traspasos SET fk_original = '"+this.fk_original+"', saldo = '"+this.saldo+"', fk_destino = '"+this.fk_destino+"'where pk_cuenta ='"+this.pk_cuenta+"'");
           
           JOptionPane.showMessageDialog(null, "Traspaso Modificado");
             listaTraspasos.clear();
@@ -116,7 +118,7 @@ public int ultimoTraspaso(Connection conexion){
 
 public void eliminarTraspaso(Connection conexion){
     
-	referencia para buscar
+	
 	try {
             try (Statement estatuto = conexion.createStatement()) {
 
@@ -131,9 +133,9 @@ public void eliminarTraspaso(Connection conexion){
 }
 
 
-public void buscarTraspaso(Connection conexion){
+public void buscarTodosTraspaso(Connection conexion,DefaultTableModel modeloTraspasos){
 	
-	referencia para buscar
+
 	
     try {
         try(Statement estatuto= conexion.createStatement()){
@@ -141,7 +143,7 @@ public void buscarTraspaso(Connection conexion){
             //con executeQuery REALIZA LAS CONSULTAS ESPECIFICAS
             
             
-            estatuto.executeQuery("SELECT * FROM traspasos WHERE descripcion='"+this.descripcion_movimiento+"'");
+            estatuto.executeQuery("SELECT * FROM traspasos");
             
             
             rst=estatuto.getResultSet();
@@ -149,13 +151,20 @@ public void buscarTraspaso(Connection conexion){
         
                 
             while(rst.next()){
+            	String origen = null,destino = null;
+            	int fk_original=rst.getInt("fk_original"),fk_destino=rst.getInt("fk_destino");
+            	
+            	cuenta.setPk_cuenta(fk_original);
+            	cuenta.buscarCuentaPorPK(conexion1.conectar());
+            	origen=cuenta.getNombre_cuenta();
+            	
+            	cuenta.setPk_cuenta(fk_destino);
+            	cuenta.buscarCuentaPorPK(conexion1.conectar());
+            	destino=cuenta.getNombre_cuenta();
+            	
+            	modeloTraspasos.addRow(new Object[]{rst.getInt("pk_cuenta"),origen,destino,rst.getFloat("saldo")});	
                 
-                setDescripcion_movimiento(rst.getString("descripcion"));
-                setCantidad_movimiento(rst.getFloat("cantidad"));
-                setFecha_movimiento(rst.getString("fecha"));
-                setPk_subrubro(rst.getInt("Pk_subrubro"));
-                setPk_cuenta(rst.getInt("PK_cuenta"));
-                setPk_movimiento(rst.getInt("PK_movimiento"));
+            
             }
             
             
@@ -168,8 +177,7 @@ public void buscarTraspaso(Connection conexion){
 }
 
 public void AgregarSugerenciaTraspaso(Connection conexion){
-    
-	referencia para buscar
+   
 	try {
         try(Statement estatuto= conexion.createStatement()){
             String nombre2;
@@ -189,6 +197,37 @@ public void AgregarSugerenciaTraspaso(Connection conexion){
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Se ha provocado un error "+e, "Error", JOptionPane.ERROR_MESSAGE);;
     }
-}*/
+}
+
+public void buscarTraspaso(Connection conexion){
 	
+
+	
+    try {
+        try(Statement estatuto= conexion.createStatement()){
+            
+            //con executeQuery REALIZA LAS CONSULTAS ESPECIFICAS
+            
+            
+            estatuto.executeQuery("SELECT * FROM traspasos WHERE Pk_cuenta="+this.pk_cuenta+";");
+            
+            
+            rst=estatuto.getResultSet();
+            
+        
+                
+            while(rst.next()){
+            	setFk_original(rst.getInt("fk_original"));
+            	setFk_destino(rst.getInt("fk_destino"));
+            	setSaldo(rst.getFloat("saldo"));
+            
+            }
+            
+            
+        }
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Se ha provocado un error en Busqueda Traspaso "+e, "Error", JOptionPane.ERROR_MESSAGE);;
+    }
+}
 }

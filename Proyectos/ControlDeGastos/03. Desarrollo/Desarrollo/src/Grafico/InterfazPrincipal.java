@@ -40,12 +40,18 @@ import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 import javax.swing.JSplitPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.ComponentOrientation;
+
 import javax.swing.JTextArea;
+
 import java.awt.Font;
 
 
 public class InterfazPrincipal extends JFrame {
+	
+	DefaultTableModel modeloTraspasos;
 	
 	TextAutoCompleter AutoCompletarCuenta,AutoCompletarRubro,AutoCompletarSubrubro,AutoCompletarMovimiento;
 
@@ -60,6 +66,8 @@ public class InterfazPrincipal extends JFrame {
 	Grafico.GraficaPuntosUnRubroTotal graficaPuntosUnRubroTotales;
 	Grafico.GraficarRubro graficaRubro;
 	Grafico.GraficarSubrubro graficaSubrubro;
+	Grafico.InterfazTraspasos interfazTraspasos;
+	
 	static String acryl="com.jtattoo.plaf.acryl.AcrylLookAndFeel";
 	
 	
@@ -80,6 +88,7 @@ public class InterfazPrincipal extends JFrame {
 	int pk_subrubro;
 	int pk_movimiento;
 	int pk_cuentaTraspaso;
+	int pk_traspaso;
 	
 	String fecha=null;
 	
@@ -129,6 +138,7 @@ public class InterfazPrincipal extends JFrame {
 	private JLabel lblGraficaDeMonitoreo;
 	private JCheckBox ckbLineas;
 	private JCheckBox chkbBarras;
+	private JTextField txtID;
 	/**
 	 * Launch the application.
 	 */
@@ -168,6 +178,9 @@ public class InterfazPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazPrincipal() {
+		
+		
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nacho Martinez\\Desktop\\LogoBisoltecSimple.png"));
 		setResizable(false);
 		setTitle("Control De Gastos");
@@ -1153,16 +1166,54 @@ public class InterfazPrincipal extends JFrame {
 				else
 				{
 				
+					
 					movimiento.setDescripcion_movimiento(descripcion_movimiento);
-					movimiento.setCantidad_movimiento(cantidad_movimiento);
+					movimiento.setCantidad_movimiento(cantidad_movimiento);					
 					movimiento.setFecha_movimiento(fecha_movimiento);
 					movimiento.setPk_cuenta(pk_cuenta);
 					movimiento.setPk_subrubro(pk_subrubro);
 					movimiento.setPk_movimiento(pk_movimiento);
 					
-				
 					
+					
+					
+					/*
+					 *REBAJA LA CANTIDAD DE LA CUENTA 
+					 */
+					
+					
+					
+					cuenta.setPk_cuenta(pk_cuenta);
+					cuenta.buscarCuentaPorPK(conexion.conectar());
+					float saldo_cuenta=cuenta.getSaldo();
+					
+					subrubro.setPk_subrubro(pk_subrubro);
+					subrubro.buscarSubrubroPorPK(conexion.conectar());
+					int pkRubro=subrubro.getPk_rubro();
+					
+					rubro.setPk_rubro(pkRubro);
+					rubro.buscarRubroPorPK(conexion.conectar());
+					String tipoMovimiento=rubro.getTipoMovimiento_rubro();
+					
+				
 					movimiento.insertarMovimiento(conexion.conectar());
+					
+					if(tipoMovimiento.equals("salida")){
+						
+						saldo_cuenta=saldo_cuenta-cantidad_movimiento;
+						cuenta.setSaldo(saldo_cuenta);
+						cuenta.modificarCuenta(conexion.conectar());
+					}
+					if(tipoMovimiento.equals("entrada")){
+						
+						saldo_cuenta=saldo_cuenta+cantidad_movimiento;
+						cuenta.setSaldo(saldo_cuenta);
+						cuenta.modificarCuenta(conexion.conectar());
+					}
+					
+					/*
+					 *REBAJA o suma LA CANTIDAD DE LA CUENTA 
+					 */
 					
 					
 					LimpiarMovimiento();
@@ -1251,12 +1302,13 @@ public class InterfazPrincipal extends JFrame {
 		tabbedPane.addTab("5-Traspasos", null, layeredPane_2, null);
 		layeredPane_2.setLayout(null);
 		
-		JLabel label = new JLabel("Saldo    $");
-		label.setBounds(49, 39, 64, 27);
+		JLabel label = new JLabel("Monto    $");
+		label.setBounds(49, 55, 64, 27);
 		layeredPane_2.add(label);
 		
 		txtTraspasosSaldo = new JTextField();
-		txtTraspasosSaldo.setBounds(102, 42, 86, 20);
+		txtTraspasosSaldo.setEnabled(false);
+		txtTraspasosSaldo.setBounds(102, 58, 86, 20);
 		layeredPane_2.add(txtTraspasosSaldo);
 		txtTraspasosSaldo.setColumns(10);
 		
@@ -1296,13 +1348,14 @@ public class InterfazPrincipal extends JFrame {
 				cuenta.setNombre_cuenta(origen);
 				cuenta.buscarCuenta(conexion.conectar());
 				fk_original=cuenta.getPk_cuenta();
+				float saldo_origen=cuenta.getSaldo();
 				
 				/*BUSCAR DESTINO*/
 				destino=cmbTraspasosDestino.getSelectedItem().toString();
 				cuenta.setNombre_cuenta(destino);
 				cuenta.buscarCuenta(conexion.conectar());
 				fk_destino=cuenta.getPk_cuenta();				
-			
+				float saldo_destino=cuenta.getSaldo();
 				
 				if(txtTraspasosSaldo.getText().isEmpty()==true||cmbTraspasosOrigen.getSelectedIndex()==0||cmbTraspasosDestino.getSelectedIndex()==0){
 					
@@ -1314,6 +1367,19 @@ public class InterfazPrincipal extends JFrame {
 				else
 				{
 				
+					saldo_origen=saldo_origen-saldo;
+					saldo_destino=saldo_destino+saldo;
+					
+					cuenta.setPk_cuenta(fk_original);
+					cuenta.buscarCuentaPorPK(conexion.conectar());
+					cuenta.setSaldo(saldo_origen);
+					cuenta.modificarCuenta(conexion.conectar());
+					
+					cuenta.setPk_cuenta(fk_destino);
+					cuenta.buscarCuentaPorPK(conexion.conectar());
+					cuenta.setSaldo(saldo_destino);
+					cuenta.modificarCuenta(conexion.conectar());
+					
 					traspaso.setSaldo(saldo);
 					traspaso.setFk_destino(fk_destino);
 					traspaso.setFk_original(fk_original);
@@ -1343,13 +1409,81 @@ public class InterfazPrincipal extends JFrame {
 				btnTraspasosNuevo.setEnabled(false);
 				btnTraspasoBuscar.setEnabled(false);
 				btnTraspasoCancelar.setVisible(true);
+				txtTraspasosSaldo.setEnabled(true);
+				txtID.setEnabled(false);
+				
 				pk_cuentaTraspaso=traspaso.ultimoTraspaso(conexion.conectar());
 			}
 		});
+		
+		JButton btnConsultar = new JButton("Todos");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				interfazTraspasos=new InterfazTraspasos();
+				interfazTraspasos.setVisible(true);
+			}
+		});
+		btnConsultar.setBounds(136, 21, 56, 23);
+		layeredPane_2.add(btnConsultar);
 		btnTraspasosNuevo.setBounds(136, 238, 89, 23);
 		layeredPane_2.add(btnTraspasosNuevo);
 		
 		btnTraspasoBuscar = new JButton("Buscar");
+		btnTraspasoBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int traspasoOrigen,traspasoDestino;
+				String monto;
+				
+				pk_cuentaTraspaso=Integer.parseInt(txtID.getText().toString());
+				
+				traspaso.setPk_cuenta(pk_cuentaTraspaso);
+				traspaso.buscarTraspaso(conexion.conectar());
+			
+				pk_traspaso=Integer.parseInt(txtID.getText().toString());
+				traspasoOrigen=traspaso.getFk_original();
+				traspasoDestino=traspaso.getFk_destino();
+				monto=Float.toString(traspaso.getSaldo());
+				
+				cuenta.setPk_cuenta(traspasoOrigen);
+				cuenta.buscarCuentaPorPK(conexion.conectar());
+				String origen=cuenta.getNombre_cuenta();
+				
+				cuenta.setPk_cuenta(traspasoDestino);
+				cuenta.buscarCuentaPorPK(conexion.conectar());
+				String destino=cuenta.getNombre_cuenta();
+				
+
+				
+				
+				
+				
+				
+				
+				if(pk_cuentaTraspaso>0){
+					
+					cmbTraspasosOrigen.setSelectedItem(origen);
+					cmbTraspasosDestino.setSelectedItem(destino);
+				
+					txtTraspasosSaldo.setText(monto);
+					txtTraspasosSaldo.setEnabled(true);
+					
+					btnTraspasosEliminar.setEnabled(true);
+					btnTraspasosModificar.setVisible(true);
+					btnTraspasosGuardar.setVisible(false);
+					btnTraspasoCancelar.setVisible(true);
+					btnTraspasosNuevo.setEnabled(false);
+					
+					cmbTraspasosOrigen.setEnabled(true);
+					cmbTraspasosDestino.setEnabled(true);
+					
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "No se encontró el Movimiento ");
+				}	
+				
+			}
+		});
 		btnTraspasoBuscar.setBounds(136, 204, 89, 23);
 		layeredPane_2.add(btnTraspasoBuscar);
 		
@@ -1364,13 +1498,103 @@ public class InterfazPrincipal extends JFrame {
 		layeredPane_2.add(btnTraspasoCancelar);
 		
 		btnTraspasosEliminar = new JButton("Eliminar");
+		btnTraspasosEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int ventana=JOptionPane.showConfirmDialog(null, "¿Esta seguro que desa ELIMINAR el Traspaso?");
+				
+				
+				if(ventana==JOptionPane.YES_OPTION){
+				
+					int pk_cuenta=Integer.parseInt(txtID.getText().toString());
+					traspaso.setPk_cuenta(pk_cuenta);
+					traspaso.buscarTraspaso(conexion.conectar());
+					
+					traspaso.eliminarTraspaso(conexion.conectar());
+															
+
+					LimpiarTraspaso();
+				
+				}
+			}
+		});
 		btnTraspasosEliminar.setEnabled(false);
 		btnTraspasosEliminar.setBounds(28, 272, 89, 23);
 		layeredPane_2.add(btnTraspasosEliminar);
 		
 		btnTraspasosModificar = new JButton("Modificar");
+		btnTraspasosModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int pk_cuenta,fk_original,fk_destino;
+				float saldo;
+				String origen,destino;
+				
+				saldo=Float.parseFloat(txtTraspasosSaldo.getText().toString());
+				
+				/*BUSCAR ORIGEN*/
+				origen=cmbTraspasosOrigen.getSelectedItem().toString();
+				cuenta.setNombre_cuenta(origen);
+				cuenta.buscarCuenta(conexion.conectar());
+				fk_original=cuenta.getPk_cuenta();
+				float saldo_origen=cuenta.getSaldo();
+				
+				/*BUSCAR DESTINO*/
+				destino=cmbTraspasosDestino.getSelectedItem().toString();
+				cuenta.setNombre_cuenta(destino);
+				cuenta.buscarCuenta(conexion.conectar());
+				fk_destino=cuenta.getPk_cuenta();				
+				float saldo_destino=cuenta.getSaldo();
+				
+				if(txtTraspasosSaldo.getText().isEmpty()==true||cmbTraspasosOrigen.getSelectedIndex()==0||cmbTraspasosDestino.getSelectedIndex()==0){
+					
+					
+					JOptionPane.showMessageDialog(null, "Porfavor ingrese los Datos Solicitados ", "Error", JOptionPane.ERROR_MESSAGE);
+				
+				
+				}
+				else
+				{
+				
+					saldo_origen=saldo_origen-saldo;
+					saldo_destino=saldo_destino+saldo;
+					
+					cuenta.setPk_cuenta(fk_original);
+					cuenta.buscarCuentaPorPK(conexion.conectar());
+					cuenta.setSaldo(saldo_origen);
+					cuenta.modificarCuenta(conexion.conectar());
+					
+					cuenta.setPk_cuenta(fk_destino);
+					cuenta.buscarCuentaPorPK(conexion.conectar());
+					cuenta.setSaldo(saldo_destino);
+					cuenta.modificarCuenta(conexion.conectar());
+					
+				
+					traspaso.setSaldo(saldo);
+					traspaso.setFk_destino(fk_destino);
+					traspaso.setFk_original(fk_original);
+					traspaso.setPk_cuenta(pk_cuentaTraspaso);
+					
+					traspaso.modificarTraspaso(conexion.conectar());
+					
+					LimpiarTraspaso();
+								
+				
+				}
+				
+			}
+		});
 		btnTraspasosModificar.setBounds(136, 272, 89, 23);
 		layeredPane_2.add(btnTraspasosModificar);
+		
+		txtID = new JTextField();
+		txtID.setBounds(102, 22, 25, 20);
+		layeredPane_2.add(txtID);
+		txtID.setColumns(10);
+		
+		JLabel lblId = new JLabel("ID");
+		lblId.setBounds(49, 25, 46, 14);
+		layeredPane_2.add(lblId);
 		
 		JLayeredPane layeredPane_4 = new JLayeredPane();
 		tabbedPane.addTab("6-Gr\u00E1ficos", null, layeredPane_4, null);
@@ -1679,9 +1903,11 @@ public void LimpiarMovimiento(){
 
 public void LimpiarTraspaso(){
 	
+	txtID.setText("");
 	txtTraspasosSaldo.setText("");
+	txtTraspasosSaldo.setEnabled(false);
 	
-	
+	txtID.setEnabled(true);
 	btnTraspasoBuscar.setVisible(true);
 	btnTraspasosNuevo.setVisible(true);
 	btnTraspasosGuardar.setEnabled(false);
