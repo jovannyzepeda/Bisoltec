@@ -16,6 +16,7 @@ import PostgreSQL.Traspasos;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class InterfazTraspasos extends JFrame {
 	
@@ -30,6 +31,7 @@ public class InterfazTraspasos extends JFrame {
 	private JButton btnCargar;
 
 	public InterfazTraspasos() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InterfazTraspasos.class.getResource("/Imagenes/logoS.png")));
 		
 		nombreColumnas.addElement("ID");
 		nombreColumnas.addElement("Cuenta Origen");

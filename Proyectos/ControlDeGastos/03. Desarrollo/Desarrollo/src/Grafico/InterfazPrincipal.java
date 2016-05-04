@@ -136,8 +136,6 @@ public class InterfazPrincipal extends JFrame {
 	private JButton btnPorRubro;
 	private JButton btnTotalRubros;
 	private JLabel lblGraficaDeMonitoreo;
-	private JCheckBox ckbLineas;
-	private JCheckBox chkbBarras;
 	private JTextField txtID;
 	/**
 	 * Launch the application.
@@ -181,7 +179,7 @@ public class InterfazPrincipal extends JFrame {
 		
 		
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Nacho Martinez\\Desktop\\LogoBisoltecSimple.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(InterfazPrincipal.class.getResource("/Imagenes/logoS.png")));
 		setResizable(false);
 		setTitle("Control De Gastos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -432,6 +430,12 @@ public class InterfazPrincipal extends JFrame {
 		btnModificar.setBounds(136, 272, 89, 23);
 		layeredPane.add(btnModificar);
 		
+		JLabel label_4 = new JLabel("");
+		label_4.setHorizontalAlignment(SwingConstants.CENTER);
+		label_4.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_4.setBounds(0, -46, 235, 372);
+		layeredPane.add(label_4);
+		
 		JLayeredPane layeredPane_6 = new JLayeredPane();
 		tabbedPane.addTab("2-Rubros", null, layeredPane_6, null);
 		layeredPane_6.setLayout(null);
@@ -667,6 +671,12 @@ public class InterfazPrincipal extends JFrame {
 		});
 		btnRubroModificar.setBounds(136, 272, 89, 23);
 		layeredPane_6.add(btnRubroModificar);
+		
+		JLabel label_5 = new JLabel("");
+		label_5.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_5.setHorizontalAlignment(SwingConstants.CENTER);
+		label_5.setBounds(0, -46, 235, 372);
+		layeredPane_6.add(label_5);
 		
 		JLayeredPane layeredPane_5 = new JLayeredPane();
 		tabbedPane.addTab("3-Subrubro", null, layeredPane_5, null);
@@ -1298,6 +1308,12 @@ public class InterfazPrincipal extends JFrame {
 		cmbMovimientosCuenta.removeAllItems();
 		cmbMovimientosCuenta.addItem("-----");
 		
+		JLabel label_7 = new JLabel("");
+		label_7.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_7.setHorizontalAlignment(SwingConstants.CENTER);
+		label_7.setBounds(0, -46, 235, 372);
+		layeredPane_1.add(label_7);
+		
 		layeredPane_2 = new JLayeredPane();
 		tabbedPane.addTab("5-Traspasos", null, layeredPane_2, null);
 		layeredPane_2.setLayout(null);
@@ -1641,7 +1657,7 @@ public class InterfazPrincipal extends JFrame {
 				graficoPuntosRubroTotales.setVisible(true);
 			}
 		});
-		btnTotalRubros.setBounds(136, 258, 89, 23);
+		btnTotalRubros.setBounds(136, 219, 89, 23);
 		layeredPane_4.add(btnTotalRubros);
 		
 		btnPorRubro = new JButton("Por Rubro");
@@ -1651,7 +1667,7 @@ public class InterfazPrincipal extends JFrame {
 				graficaPuntosUnRubroTotales.setVisible(true);
 			}
 		});
-		btnPorRubro.setBounds(10, 258, 89, 23);
+		btnPorRubro.setBounds(10, 219, 89, 23);
 		layeredPane_4.add(btnPorRubro);
 		
 		lblGraficaDeMonitoreo = new JLabel("Graficas de Monitoreo");
@@ -1662,16 +1678,26 @@ public class InterfazPrincipal extends JFrame {
 		lblGraficaDeMonitoreo.setBounds(10, 122, 215, 65);
 		layeredPane_4.add(lblGraficaDeMonitoreo);
 		
-		chkbBarras = new JCheckBox("Barras");
-		chkbBarras.setBounds(128, 194, 97, 23);
-		layeredPane_4.add(chkbBarras);
-		
-		ckbLineas = new JCheckBox("Lineas");
-		ckbLineas.setBounds(10, 194, 97, 23);
-		layeredPane_4.add(ckbLineas);
+		JLabel label_9 = new JLabel("");
+		label_9.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_9.setHorizontalAlignment(SwingConstants.CENTER);
+		label_9.setBounds(0, -46, 235, 372);
+		layeredPane_4.add(label_9);
 		
 		
 		
+		
+		
+		JLabel label_6 = new JLabel("");
+		label_6.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		label_6.setBounds(0, -46, 235, 372);
+		layeredPane_5.add(label_6);
+		
+
+		/*
+		 * SUBRUBROS
+		 * */
 		cmbSubrubroRubro.removeAllItems();
 		cmbSubrubroRubro.addItem("-----");
 		rubro.AgregarRubroComboBox(conexion.conectar());
@@ -1681,6 +1707,12 @@ public class InterfazPrincipal extends JFrame {
 		i++;
 		}
 		rubro.listaRubros.clear();
+		
+		/*
+		 * MOVIMIENTOS
+		 * */
+		cmbMovimientosSubrubro.removeAllItems();
+		cmbMovimientosSubrubro.addItem("-----");
 		subrubro.AgregarSubrubroComboBox(conexion.conectar());
 		 i=0;
 		while(subrubro.listaSubrubros.size()!=i){
@@ -1688,26 +1720,28 @@ public class InterfazPrincipal extends JFrame {
 		i++;
 		}
 		subrubro.listaSubrubros.clear();
-		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
-		 i=0;
-		while(cuenta.listaCuentas.size()!=i){
-		cmbMovimientosCuenta.addItem(cuenta.listaCuentas.get(i));
-		i++;
-		}
+		
+		
+	
+		
+
+		/*
+		 * TRASPASOS
+		 * */
 		cuenta.listaCuentas.clear();
+		cmbMovimientosCuenta.removeAllItems();
+		cmbMovimientosCuenta.addItem("-----");
+		cmbTraspasosDestino.removeAllItems();
+		cmbTraspasosDestino.addItem("-----");
+		cmbTraspasosOrigen.removeAllItems();
+		cmbTraspasosOrigen.addItem("-----");
 		
 		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
 		 i=0;
 		while(cuenta.listaCuentas.size()!=i){
 		cmbTraspasosDestino.addItem(cuenta.listaCuentas.get(i));
-		i++;
-		}
-		cuenta.listaCuentas.clear();
-		
-		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
-		 i=0;
-		while(cuenta.listaCuentas.size()!=i){
 		cmbTraspasosOrigen.addItem(cuenta.listaCuentas.get(i));
+		cmbMovimientosCuenta.addItem(cuenta.listaCuentas.get(i));
 		i++;
 		}
 		cuenta.listaCuentas.clear();
@@ -1736,7 +1770,15 @@ public class InterfazPrincipal extends JFrame {
 		AutoCompletarMovimiento.removeAllItems();
 		movimiento. AgregarSugerenciaMovimiento(conexion.conectar());
 		AutoCompletarMovimiento.addItems(movimiento.listaMovimientos);
-		System.out.println(movimiento.listaMovimientos+" lista movimientos");
+		//System.out.println(movimiento.listaMovimientos+" lista movimientos");
+		
+		
+		JLabel label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon(InterfazPrincipal.class.getResource("/Imagenes/logofondo.png")));
+		label_8.setHorizontalAlignment(SwingConstants.CENTER);
+		label_8.setBounds(0, -46, 235, 372);
+		layeredPane_2.add(label_8);
+		
 	}
 	
 	
@@ -1775,6 +1817,26 @@ public class InterfazPrincipal extends JFrame {
 		cuenta.listaCuentas.clear();
 		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
 		AutoCompletarCuenta.addItems(cuenta.listaCuentas);
+		
+		
+		cuenta.listaCuentas.clear();
+		
+		cmbMovimientosCuenta.removeAllItems();
+		cmbMovimientosCuenta.addItem("-----");
+		cmbTraspasosDestino.removeAllItems();
+		cmbTraspasosDestino.addItem("-----");
+		cmbTraspasosOrigen.removeAllItems();
+		cmbTraspasosOrigen.addItem("-----");
+		
+		cuenta.AgregarSugerenciaCuenta(conexion.conectar());
+		int i=0;
+		while(cuenta.listaCuentas.size()!=i){
+		cmbTraspasosDestino.addItem(cuenta.listaCuentas.get(i));
+		cmbTraspasosOrigen.addItem(cuenta.listaCuentas.get(i));
+		cmbMovimientosCuenta.addItem(cuenta.listaCuentas.get(i));
+		i++;
+		}
+		cuenta.listaCuentas.clear();
 		
 		
 	}
@@ -1843,22 +1905,14 @@ public void LimpiarSubrubro(){
 	cmbMovimientosSubrubro.removeAllItems();
 	cmbMovimientosSubrubro.addItem("-----");
 	subrubro.AgregarSubrubroComboBox(conexion.conectar());
-	 int i=0;
+	int i=0;
 	while(subrubro.listaSubrubros.size()!=i){
 	cmbMovimientosSubrubro.addItem(subrubro.listaSubrubros.get(i));
 	i++;
 	}
 	subrubro.listaSubrubros.clear();
 	
-	cmbMovimientosCuenta.removeAllItems();
-	cmbMovimientosCuenta.addItem("-----");
-	cuenta.AgregarSugerenciaCuenta(conexion.conectar());
-	 i=0;
-	while(cuenta.listaCuentas.size()!=i){
-	cmbMovimientosCuenta.addItem(cuenta.listaCuentas.get(i));
-	i++;
-	}
-	cuenta.listaCuentas.clear();
+	
 }
 
 public void LimpiarMovimiento(){
@@ -1898,6 +1952,8 @@ public void LimpiarMovimiento(){
 	movimiento.AgregarSugerenciaMovimiento(conexion.conectar());
 	AutoCompletarMovimiento.addItems(movimiento.listaMovimientos);
 
+	
+	
 }
 
 

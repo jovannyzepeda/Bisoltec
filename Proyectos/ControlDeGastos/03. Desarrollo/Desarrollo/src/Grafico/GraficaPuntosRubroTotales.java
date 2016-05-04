@@ -31,6 +31,7 @@ import PostgreSQL.GraficaSubrubro;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Toolkit;
 
 public class GraficaPuntosRubroTotales extends JFrame {
 
@@ -56,6 +57,7 @@ public class GraficaPuntosRubroTotales extends JFrame {
 	 * Create the frame.
 	 */
 	public GraficaPuntosRubroTotales() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GraficaPuntosRubroTotales.class.getResource("/Imagenes/logoS.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 724, 561);

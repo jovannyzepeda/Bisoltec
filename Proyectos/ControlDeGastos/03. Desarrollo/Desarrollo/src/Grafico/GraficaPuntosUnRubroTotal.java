@@ -26,6 +26,7 @@ import PostgreSQL.Conexion;
 import PostgreSQL.GraficaPuntosRubroTotal;
 import PostgreSQL.GraficaPuntosUnRubroTotales;
 import PostgreSQL.Rubro;
+import java.awt.Toolkit;
 
 public class GraficaPuntosUnRubroTotal extends JFrame {
 
@@ -52,6 +53,7 @@ public class GraficaPuntosUnRubroTotal extends JFrame {
 	 * Create the frame.
 	 */
 	public GraficaPuntosUnRubroTotal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GraficaPuntosUnRubroTotal.class.getResource("/Imagenes/logoS.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 724, 561);

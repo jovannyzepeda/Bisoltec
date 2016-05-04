@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
 import java.util.Collections;
+import java.awt.Toolkit;
 
 public class GraficarSubrubro extends JFrame {
 
@@ -61,6 +62,7 @@ public class GraficarSubrubro extends JFrame {
 	 * Create the frame.
 	 */
 	public GraficarSubrubro() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GraficarSubrubro.class.getResource("/Imagenes/logoS.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 724, 561);
